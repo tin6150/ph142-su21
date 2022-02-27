@@ -2,6 +2,10 @@
 title: "The normal distribution"
 ---
 
+## Lect 12 in Su21
+## Lect 14 in Fa22 
+
+
 ```{r load-libraries, message=F, warning=FALSE, echo=F}
 library(knitr) # for include_graphics() 
 library(dplyr)
@@ -79,6 +83,8 @@ p1
 ```
 
 ### Properties of the Normal distribution
+
+// _slide 26/60 Lect14_
 
 - the mean $\mu$ can be any value, positive or negative
 - the standard deviation $\sigma$ must be a positive number
@@ -160,6 +166,13 @@ $\mu=64.5$ inches and standard deviation $\sigma=2.5$ inches
 
 - Thinking back to the article about height - who would we consider "taller than normal" in these data?
 
+
+//sn50
+```{r}
+x=1.2
+pnorm(q=x)
+```
+
 ## Finding Normal probabilities
 
 ### Finding Normal probabilities
@@ -210,6 +223,10 @@ Alternatively:
 
 ```{r alternative-prob-above}
  pnorm(q = 1.2, mean = 0, sd = 1, lower.tail = F)
+
+ pnorm( q=1.2, lower.tail = F)
+ 
+## pnorm( q=1.2, lower.tail = T) the left tail
 ```
 
 So, 11.51% of the data is above x=1.2.
@@ -250,6 +267,7 @@ ggplot(data = data.frame(x = c(-4, 4)), aes(x)) +
   geom_segment(x = 1.5, xend = 1.5, y = 0 , yend = 0.13) + 
   geom_segment(x = -0.8, xend = -0.8, y = 0 , yend = 0.29) + 
   scale_x_continuous(breaks = -4:4) + labs(y = "density")
+
 ```
 
 ### Finding Normal probabilities
@@ -261,6 +279,13 @@ pnorm(q = 1.5, mean = 0, sd = 1)
 pnorm(q = -0.8, mean = 0, sd = 1)
 # step 3: take the difference between these probabilities 
 pnorm(q = 1.5, mean = 0, sd = 1) - pnorm(q = -0.8, mean = 0, sd = 1)
+
+
+
+#### my version, calc the non shaded area, substract them from 1 :)
+#### P(-0.8 < x < 1.5)
+1 - ( pnorm( -0.8 ) + pnorm( 1.5, lower.tail=F ) )
+
 ```
 
 Thus, 72.13% of the data is in the range -0.8 < x < 1.5.
