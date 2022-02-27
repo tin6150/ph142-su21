@@ -2,6 +2,18 @@
 title: "L13:  The Binomial distributions"
 ---
 
+// slight tweaks to understand lecture materials  
+// win10 PH sn50 branch 
+
+```{r}
+install.packages("pacman",    repos = "http://cran.us.r-project.org")
+library(pacman); 
+p_load( ggplot2, jpeg )
+p_load(knitr)
+p_load(dplyr,jpeg,grid)
+```
+
+
 <!-- libraries -->
 ```{r,include=FALSE,purl=FALSE}
 library(knitr) # for include_graphics() 
