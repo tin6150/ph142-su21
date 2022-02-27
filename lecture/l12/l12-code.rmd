@@ -2,15 +2,8 @@
 title: "The normal distribution"
 ---
 
-```{r}
-
-install.packages("pacman",    repos = "http://cran.us.r-project.org")
-library(pacman); 
-p_load( ggplot2, jpeg )
-p_load(knitr)
-p_load(dplyr,jpeg,grid)
-
-```
+## Lect 12 in Su21
+## Lect 14 in Fa22 
 
 
 ```{r load-libraries, message=F, warning=FALSE, echo=F}
@@ -35,7 +28,6 @@ library(grid)
 - Here is a Normal distribution with mean ($\mu$) = 0, standard deviation ($\sigma$) = 1 .
 
 ```{r load-libraries2, echo=F, out.width = "70%", warning=F, message=F}
-p_load(patchwork,latex2exp)
 library(ggplot2)
 library(patchwork)
 library(latex2exp)
@@ -91,6 +83,8 @@ p1
 ```
 
 ### Properties of the Normal distribution
+
+// _slide 26/60 Lect14_
 
 - the mean $\mu$ can be any value, positive or negative
 - the standard deviation $\sigma$ must be a positive number
@@ -172,6 +166,13 @@ $\mu=64.5$ inches and standard deviation $\sigma=2.5$ inches
 
 - Thinking back to the article about height - who would we consider "taller than normal" in these data?
 
+
+//sn50
+```{r}
+x=1.2
+pnorm(q=x)
+```
+
 ## Finding Normal probabilities
 
 ### Finding Normal probabilities
@@ -222,6 +223,10 @@ Alternatively:
 
 ```{r alternative-prob-above}
  pnorm(q = 1.2, mean = 0, sd = 1, lower.tail = F)
+
+ pnorm( q=1.2, lower.tail = F)
+ 
+## pnorm( q=1.2, lower.tail = T) the left tail
 ```
 
 So, 11.51% of the data is above x=1.2.
@@ -262,6 +267,7 @@ ggplot(data = data.frame(x = c(-4, 4)), aes(x)) +
   geom_segment(x = 1.5, xend = 1.5, y = 0 , yend = 0.13) + 
   geom_segment(x = -0.8, xend = -0.8, y = 0 , yend = 0.29) + 
   scale_x_continuous(breaks = -4:4) + labs(y = "density")
+
 ```
 
 ### Finding Normal probabilities
@@ -273,6 +279,13 @@ pnorm(q = 1.5, mean = 0, sd = 1)
 pnorm(q = -0.8, mean = 0, sd = 1)
 # step 3: take the difference between these probabilities 
 pnorm(q = 1.5, mean = 0, sd = 1) - pnorm(q = -0.8, mean = 0, sd = 1)
+
+
+
+#### my version, calc the non shaded area, substract them from 1 :)
+#### P(-0.8 < x < 1.5)
+1 - ( pnorm( -0.8 ) + pnorm( 1.5, lower.tail=F ) )
+
 ```
 
 Thus, 72.13% of the data is in the range -0.8 < x < 1.5.
@@ -342,12 +355,8 @@ It would be impossible to tabulate the area associated with each and every norma
 So instead of doing the impossible, we convert to the **Standard Normal** Distribution
  
 ### The standard Normal distribution
-
-
 - The standard Normal distribution N(0,1) has $\mu = 0$ and $\sigma=1$.
 - $X \sim N(0,1)$, implies that the random variable X is Normally distributed.
-
-##sn50
 
 ```{r, echo=F, out.width="75%"}
 p1 <- ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
@@ -384,16 +393,10 @@ below the mean of the data.
 
 ### Simulating Normally distributed data in R
 
-
-//sn50 
-
 Suppose that we measured 1000 heights for young women:
 
 ```{r simulate-height-data}
 #students, rnorm() is important to know!
-heights.women <- rnorm(n = 10, mean = 64.5, sd = 2.5)
-
-#// lectured used 1000, 
 heights.women <- rnorm(n = 1000, mean = 64.5, sd = 2.5)
 heights.women <- data.frame(heights.women)
 ```
@@ -403,18 +406,9 @@ We can plot the histogram of the heights, and see that they roughly follow from
 a Normal distribution:
 
 ```{r plot heights, out.width="80%", echo=F, warning=F, message=F}
-hist = ggplot(heights.women, aes(x = heights.women)) + geom_histogram(col = "white") + theme_minimal(base_size = 15) 
-hist
+hist <- ggplot(heights.women, aes(x = heights.women)) + geom_histogram(col = "white") + theme_minimal(base_size = 15) 
 
-dens = ggplot(heights.women, aes(x = heights.women)) + geom_density() + stat_function(fun = dnorm, args = c(mean = 64.5, sd = 2.5), col = "forest green") + theme_minimal(base_size = 15)
-dens
-
-dens_sn0 = ggplot(heights.women, aes(x = heights.women)) + geom_density()  +
- #+ stat_function(fun = dnorm, args = c(mean = 64.5, sd = 2.5), col = "forest green")  +
- theme_minimal(base_size = 15)
-dens_sn0
-
-hist+dens 
+dens <- ggplot(heights.women, aes(x = heights.women)) + geom_density() + stat_function(fun = dnorm, args = c(mean = 64.5, sd = 2.5), col = "forest green") + theme_minimal(base_size = 15)
 
 hist + dens + plot_layout()
 ```
@@ -438,29 +432,12 @@ What would the distribution of the standardized heights look like?
 ```{r plot-z-scores, warning=F, message=F, out.width="80%", echo=F, }
 hist_z <- ggplot(heights.women, aes(x = z)) + geom_histogram(col = "white") + 
   theme_minimal(base_size = 15) 
-hist_z
 
 dens_z <- ggplot(heights.women, aes(x = z)) + geom_density() + 
   stat_function(fun = dnorm, args = c(mean = 0, sd = 1), col = "forest green") + 
   theme_minimal(base_size = 15)
-dens_z
-
 
 hist_z + dens_z + plot_layout()
-
-
-
-
-dens_zsn1 = ggplot(heights.women, aes(x = z)) + geom_density()  +
-  #stat_function(fun = dnorm, col = "forest green")  +
-  stat_function(fun = dchisq, col = "blue")  +
-  theme_minimal(base_size = 15)
-dens_zsn1
-
-?stat_function
-
-
-
 ```
 
 
@@ -474,10 +451,3 @@ a given value
 percent of the data lies below it
 
 
-
-```{r}
-set.seed(123)
-runif(n=1)
-runif(n=10) 
-?runif
-```
