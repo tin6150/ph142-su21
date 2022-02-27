@@ -1,9 +1,11 @@
 ---
 title: "L13:  The Binomial distributions"
+L15 in Sp22
 ---
 
 // slight tweaks to understand lecture materials  
 // win10 PH sn50 branch 
+// orig was nix, after save on win10 get ^M added... 
 
 ```{r}
 install.packages("pacman",    repos = "http://cran.us.r-project.org")
@@ -11,6 +13,8 @@ library(pacman);
 p_load( ggplot2, jpeg )
 p_load(knitr)
 p_load(dplyr,jpeg,grid)
+p_load(tidyverse)
+
 ```
 
 
