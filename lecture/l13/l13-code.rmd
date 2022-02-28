@@ -15,7 +15,10 @@ p_load(knitr)
 p_load(dplyr,jpeg,grid)
 p_load(tidyverse)
 
+
 ```
+
+
 
 
 <!-- libraries -->
@@ -287,11 +290,28 @@ Or we could use R with 'dbinom(#successes,size,probability of success)'
 This function calculates the probability of observing `x` successes when $X \sim Binom(n,p)$
 
 ```{r user, echo=TRUE}
-dbinom(1,size=2,prob=0.29)
+dbinom(x=1,size=2,prob=0.29)  #0.4118
 ```
 
 
 let's look further at sampling distributions using our container example...
+
+
+##sn50.wombat## scratch calc
+## wondering why the d- class and not the p-class of fn
+```{r}
+
+pbinom(q=1,size=2,prob=0.29)   #0.9159
+
+pnorm(q=1.65,mean=0,sd=1)
+pnorm( q=27.4, mean=50, sd=20, lower.tail=TRUE )
+
+
+qnorm(0.95, mean=100, sd=15, lower.tail=TRUE)
+```
+
+
+
 
 ## Example trial of size 10
 
@@ -304,19 +324,27 @@ We can see that 10% of the containers are contaminated and 1000 bottles are
 
 We simulate these data:
 ```{r simulate-binomial-population}
-container.id <- 1:10000
-benzene <- c(rep(0, 9000), rep(1, 1000))
+
+?rep
+c(rep(0,4),rep(1,2))
+
+container.id <- 1:10000                                ## this is just an array of 10k elemens
+benzene <- c(rep(0, 9000), rep(1, 1000))               ##  this create sequence of 9000 zeros/failure and 1000 ones/success , ie NOT random!
 pop_data <- data.frame(container.id, benzene)
 ```
+
+
+
 
 ### Sampling distribution of a count in R
 
 ```{r}
 # Calculate the population number of bottles contaminated by benzene and the 
 # population mean proportion
+
 pop_stats <- pop_data %>% summarize(pop_num_successes = sum(benzene),
                                     pop_mean = mean(benzene))
-
+## sucess means finding a contaminated sample!
 pop_stats
 ```
 
@@ -326,9 +354,14 @@ Take a sample of size 10 from the population. Note that 10 is much smaller than
 10,000. 
 
 - How many contaminated bottles are we expecting in the sample?
+
+// answered in slide 
+
 - Given that we sample 10, what is the full range of possible values we could 
 see for X, the number of successes and $p$ the proportion of successes? 
 - Which values are most likely?
+
+
 
 ```{r}
 # first sample
@@ -376,6 +409,8 @@ many.sample.stats <- replicate(1000, sample_n(pop_data, 10), simplify = F) %>%
 
 ### Sampling distribution of a count in R
 
+// slide 48/63  // video [39:30] // p-hat, x-bar
+
 Here are the first rows of the data frame we made on the previous slide.
 Each row represents an independent sample from the population. 
 
@@ -419,6 +454,10 @@ ggplot(aggregated.stats, aes(x = as.numeric(sample_num_successes), y = percent))
 As we will see in a moment, this histogram *approximates* the shape of the 
 binomial distribution with n = 10 and p = 0.1. Observing one success is the most
 likely outcome. Why is that?
+
+
+
+//sn50// stopped here in sp22 lect15
 
 ### Worked probabilities, x = 0
 

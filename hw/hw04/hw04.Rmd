@@ -5,7 +5,8 @@ date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: pdf_document
 ---
 
-
+//sn50// didn't i wrote some whinnings on this file??   oh, in sp22, not this dir/repo!
+  
 ### Instructions 
 * Solutions will be released on Tuesday, July 20
 * This semester, homework assignments are for practice only and will not be turned in for marks.
